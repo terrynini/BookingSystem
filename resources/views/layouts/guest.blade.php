@@ -29,7 +29,7 @@
                 timeFormat: 'H:mm'
             });
         });
-        $("#login").click(function() { window.location.href = "<?php echo $OAuth_url ?>";});
+        @yield('script')
         </script>
     </body>
 </html>

@@ -11,4 +11,6 @@
 |
 */
 
-Route::get('/', 'ReservationController@index');
+Route::get('/', 'EntryController@index')->name('body_index');
+Route::get('/auth', 'ReservationController@auth');
+Route::get('/logout', 'ReservationController@logout');
