@@ -1,0 +1,19 @@
+{
+  "name": "bookingsystem",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "https://github.com/terrynini/BookingSystem",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fullcalendar": "^3.9.0",
+    "jquery": "^3.3.1"
+  }
+}

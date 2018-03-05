@@ -10,3 +10,4 @@ Vagrantfile
 .DS_Store
 /public/.DS_Store
 .vagrant/
+*.sql

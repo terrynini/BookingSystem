@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCprReservationsTable extends Migration
+class CreateIoiReservationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,14 @@ class CreateCprReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('cpr_reservations', function (Blueprint $table) {
+        Schema::create('ioi_reservations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',30);
             $table->text('email');
             $table->string('identity_code',15);
+            $table->smallInteger('identity_type');
             $table->string('department');
-            $table->string('class');
-            $table->char('phone',20);
-            $table->integer('pretest');
-            $table->integer('posttest');
-            $table->integer('practice');
+            $table->char('phone',10);
             $table->integer('event_id')->index();
             $table->string('cancel_code');
             $table->timestamp('cancel_at');
@@ -39,6 +36,6 @@ class CreateCprReservationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cpr_reservations');
+        Schema::dropIfExists('ioi_reservations');
     }
 }

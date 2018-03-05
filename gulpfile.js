@@ -13,7 +13,39 @@ require('laravel-elixir-vue-2');
  |
  */
 
+gulp.task("copyfiles", function() {
+
+    gulp.src("vendor/bower_components/jquery/dist/jquery.min.js")
+        .pipe(gulp.dest("resources/assets/js/"));
+
+    gulp.src("vendor/bower_components/moment/min/moment.min.js")
+        .pipe(gulp.dest("resources/assets/js/"));
+
+    gulp.src("vendor/bower_components/fullcalendar/dist/fullcalendar.js")
+        .pipe(gulp.dest("resources/assets/js/"));
+
+    gulp.src("vendor/bower_components/fullcalendar/dist/fullcalendar.css")
+        .pipe(gulp.dest("resources/assets/css/"));
+
+    gulp.src("vendor/bower_components/bootstrap/dist/js/bootstrap.js")
+        .pipe(gulp.dest("resources/assets/js/"));
+    
+    gulp.src("vendor/bower_components/bootstrap/dist/css/bootstrap.min.css")
+        .pipe(gulp.dest("resources/assets/css/")); 
+});
+
 elixir((mix) => {
-    mix.sass('app.scss')
-       .webpack('app.js');
+    mix.sass('app.scss', 'resources/assets/css');
+
+    mix.styles([
+        'bootstrap.min.css',
+        'app.css',
+        'fullcalendar.css'
+    ]);
+
+    mix.scripts([
+        'jquery.min.js',
+        'moment.min.js',
+        'fullcalendar.js'
+    ]);
 });

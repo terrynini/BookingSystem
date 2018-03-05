@@ -11,6 +11,21 @@
 |
 */
 
-Route::get('/', 'EntryController@index')->name('body_index');
-Route::get('/auth', 'ReservationController@auth');
-Route::get('/logout', 'ReservationController@logout');
+Route::get('/', 'EntryController@index');
+Route::get('/ioi', "EntryController@ioi_index")->name('ioi_index');
+Route::get('/cpr', "EntryController@cpr_index")->name('cpr_index');
+Route::get('/auth', 'AuthController@auth');
+Route::get('/token', 'AuthController@token');
+Route::get('/logout', 'AuthController@logout');
+
+//route for IOI service
+Route::group(['prefix' => 'ioi'], function () {
+    Route::resource('events','IOIEventController');
+});
+
+//route for cpr service
+Route::group(['prefix' => 'cpr'], function () {
+    
+});
+
+

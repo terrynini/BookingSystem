@@ -9,7 +9,7 @@ class OAuthService
     protected $API_token;
     protected $Client_id; 
     protected $ClientSecret;
-    
+
     public function __construct(){
         $this->API_token = config('OAuth.API_token');
         $this->Client_id = config('OAuth.Client_id');
@@ -53,7 +53,8 @@ class OAuthService
             }catch (\Exception $e){
                 return null;
             }
-            return  $response->getBody();
+            session(json_decode($response->getBody(),true));
+            //return  json_decode($response->getBody(),true);
     }
 
     public function getUrl(){
