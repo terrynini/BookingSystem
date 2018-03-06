@@ -35,8 +35,8 @@ gulp.task("copyfiles", function() {
 });
 
 elixir((mix) => {
+    mix.copy('node_modules/font-awesome/fonts', 'public/fonts/font-awesome',false);
     mix.sass('app.scss', 'resources/assets/css');
-
     mix.styles([
         'bootstrap.min.css',
         'app.css',
