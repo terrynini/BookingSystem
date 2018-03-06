@@ -44,7 +44,7 @@
         $(document).ready(function() {
             $('#calendar').fullCalendar({
                 defaultView: 'month',
-                events :  '/ioi/events/all',
+                events :  '/ioi/events',
                 timeFormat: 'H:mm',
             });
         });

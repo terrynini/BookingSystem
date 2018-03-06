@@ -3,33 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\IOIEvent;
 
-class IOIEventController extends Controller
+class IOIReservationController extends Controller
 {
-    public function __construct(){
-        $this->middleware('admin',['except' => 'index']);
-    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $events = IOIEvent::whereBetween('begin_at',[ $request->start, $request->end])->get();
-        $json = array();
-        foreach ($events as $event){
-            $event->end_at = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $event->begin_at)->addMinutes(10)->toDateTimeString();
-                    $eventobject = array ('title' => $event->id,
-                                         'start'=> $event->begin_at,
-                                         'end' => $event->end_at,
-                                         'color' => 'green',
-                                         'textColor' => 'white'
-                    );
-            $json[] = $eventobject;
-        }
-        return response()->json($json);
+        //
     }
 
     /**
@@ -39,7 +23,7 @@ class IOIEventController extends Controller
      */
     public function create()
     {
-        return view("ioi.events_create");
+        //
     }
 
     /**
@@ -50,9 +34,7 @@ class IOIEventController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        IOIEvent::create($input);
-        return view('ioi.index');
+        //
     }
 
     /**
@@ -61,7 +43,7 @@ class IOIEventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show($id)
     {
         //
     }
@@ -87,7 +69,6 @@ class IOIEventController extends Controller
     public function update(Request $request, $id)
     {
         //
-
     }
 
     /**

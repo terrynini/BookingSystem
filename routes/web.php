@@ -21,6 +21,7 @@ Route::get('/logout', 'AuthController@logout');
 //route for IOI service
 Route::group(['prefix' => 'ioi'], function () {
     Route::resource('events','IOIEventController');
+    Route::resource('reservations','IOIReservationController');
 });
 
 //route for cpr service

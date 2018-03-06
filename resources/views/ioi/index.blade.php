@@ -13,7 +13,8 @@
         </div>
         <div class = "col-5 container">
             <div class="card-columns ">
-               @include('partials.userinfo') 
+               @include('partials.userinfo')
+               @include('partials.form') 
             </div>
             <div class="alert alert-warning">
                 <strong>預約及使用說明：</strong>
