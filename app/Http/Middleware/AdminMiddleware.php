@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
-class Admin
+use \App\Admin;
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,10 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        //if (not admin) {
-        //    return redirect("/home");
-        //}
+        return redirect("/ioi");
+        if (Admin::isadmin()->find() == NULL) {
+            return redirect("/ioi");
+        }
 
         return $next($request);
     }

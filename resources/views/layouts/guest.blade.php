@@ -32,22 +32,13 @@
 			    <a href="#" style="text-decoration:none;font-size:30px; color:white ">身體組成分析儀預約</a>
             </div>
         </div>
-        <div class="container" style="padding:0 0 1.5rem">
-            <ul class="nav nav-pills">
-                <li class="nav-item">
-                <a class="nav-link active" href="{{url("/ioi/events/create")}}">Create</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-            </ul>
-        </div>
+        
+        @if (App\Admin::isadmin()->count())
+            @include('partials.admin_nav')
+        @else
+            @include('partials.user_nav')
+        @endif
+
         @yield('content')
         <script type="text/javascript">
         $(document).ready(function() {

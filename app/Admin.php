@@ -9,5 +9,7 @@ class Admin extends Model
     protected $fillable = ['name', 'identity_code', 'privilege'];
 
 
-    //public function scope
+    public function scopeIsAdmin($query){
+        return $query->where('identity_code', session('id'));
+    }
 }

@@ -7,7 +7,7 @@ use App\IOIEvent;
 
 class IOIEventController extends Controller
 {
-    public function __contruct(){
+    public function __construct(){
         $this->middleware('admin',['except' => 'show']);
     }
     /**
@@ -53,7 +53,6 @@ class IOIEventController extends Controller
     {
         $events = IOIEvent::whereBetween('begin_at',[ $request->start, $request->end])->get();
         $json = array();
-       
         foreach ($events as $event){
             $event->end_at = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $event->begin_at)->addMinutes(10)->toDateTimeString();
                     $eventobject = array ('title' => $event->id,
@@ -62,9 +61,9 @@ class IOIEventController extends Controller
                                          'color' => 'green',
                                          'textColor' => 'white'
                     );
-                $json[] = $eventobject;
+            $json[] = $eventobject;
         }
-            return response()->json($json);
+        return response()->json($json);
     }
 
     /**
