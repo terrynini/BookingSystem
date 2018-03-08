@@ -11,6 +11,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(UserTableSeeder::class);
     }
+}
+
+
+class UserTableSeeder extends Seeder {
+
+    public function run()
+    {
+        DB::table('userinfos')->insert([
+            
+            'name' => '陳廷宇',
+            'type' => 'student',
+            'identity_code' => '104502040',
+            'department' => "bang",
+            'privilege' => 1,
+        ]);
+
+    }
+
 }

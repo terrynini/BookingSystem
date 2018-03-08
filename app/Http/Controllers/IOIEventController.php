@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\IOIEvent;
-
+use Carbon\Carbon;
 class IOIEventController extends Controller
 {
     public function __construct(){
@@ -20,13 +20,13 @@ class IOIEventController extends Controller
         $events = IOIEvent::whereBetween('begin_at',[ $request->start, $request->end])->get();
         $json = array();
         foreach ($events as $event){
-            $event->end_at = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $event->begin_at)->addMinutes(10)->toDateTimeString();
-                    $eventobject = array ('title' => $event->id,
-                                         'start'=> $event->begin_at,
-                                         'end' => $event->end_at,
-                                         'color' => 'green',
-                                         'textColor' => 'white'
-                    );
+            $color = IOIEvent::find($event->id)->reservation == NULL ? 'green' : 'red';
+            $eventobject = ['title' => $event->id,
+                            'start'=> $event->begin_at->toDateTimeString(),
+                            'end' => $event->begin_at->addMinutes(10)->toDateTimeString(),
+                            'color' => $color,
+                            'textColor' => 'white'
+                            ];
             $json[] = $eventobject;
         }
         return response()->json($json);
@@ -50,9 +50,21 @@ class IOIEventController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        IOIEvent::create($input);
-        return view('ioi.index');
+
+        $begin_at = Carbon::createFromFormat("Y-m-d\TH:i", $request->begin_at);
+
+        for($rw = 0;$rw<$request->repeat_week;$rw++)
+            for($rd = 0;$rd<$request->repeat_day;$rd++)
+                for($re = 0;$re<$request->repeat;$re++)
+                    IOIEvent::create(['timer'=>Carbon::createFromFormat("Y-m-d\TH:i",$request->timer),
+                    'begin_at'=>$begin_at
+                    ->copy()
+                    ->addMinutes($request->period*$re)
+                    ->addDays($rd)
+                    ->addWeeks($rw),
+                    ]);
+
+        return redirect('ioi/events/create');
     }
 
     /**

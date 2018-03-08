@@ -7,7 +7,7 @@
         @else
             <p class="card-text">你好 {{session("name")}}</p>
             <p class="card-text">學號/身分證字號：{{session("id")}}</p>
-            <p class="card-text">系所/單位：{{session("unit")}} {{session("group")}}</p>
+            <p class="card-text">系所/單位：{{session("unit")}} {{session("group")==NULL? session("title"): session("group")}}</p>
             <button id="logout" type="button" class="btn btn-danger"> Log out </button>
         @endif 
     </div>

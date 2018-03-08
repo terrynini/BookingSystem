@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use \App\Userinfo;
-class AdminMiddleware
+
+class LoginMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,11 +15,8 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Userinfo::isadmin()->first() == NULL) {
-            if(strpos($request->url(),'ioi') !== false)
-                return redirect('ioi');
-            else
-                return redirect('cpr');
+        if (session('access_token') == NULL) {
+            return redirect()->back();
         }
 
         return $next($request);

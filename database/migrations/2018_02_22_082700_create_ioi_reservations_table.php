@@ -15,16 +15,10 @@ class CreateIoiReservationsTable extends Migration
     {
         Schema::create('ioi_reservations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',30);
-            $table->text('email');
-            $table->string('identity_code',15);
-            $table->smallInteger('identity_type');
-            $table->string('department');
-            $table->char('phone',10);
-            $table->integer('event_id')->index();
-            $table->string('cancel_code');
-            $table->timestamp('cancel_at');
-            $table->timestamp('checked_in_at');
+            $table->integer('event_id')->unsigned();
+            $table->integer('userinfo_id')->unsigned();
+            $table->timestamp('checked_in_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

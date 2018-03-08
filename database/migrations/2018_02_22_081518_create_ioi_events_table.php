@@ -16,6 +16,8 @@ class CreateIoiEventsTable extends Migration
         Schema::create('ioi_events', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamp('begin_at');
+            $table->timestamp('timer');
+            $table->softDeletes();;
             $table->timestamps();
         });
     }

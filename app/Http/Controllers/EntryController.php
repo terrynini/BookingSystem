@@ -29,6 +29,6 @@ class EntryController extends Controller
         $token = $request->session()->all();
         $Info = $this->AuthService->getInfo($token);
         $url = $this->AuthService->getUrl();
-        return view("ioi.index", ['OAuth_url' => $url] );
+        return view("cpr.index", ['OAuth_url' => $url] );
     }
 }

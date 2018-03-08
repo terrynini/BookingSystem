@@ -2,7 +2,8 @@
 <html>
     <head>
         <title>身體組成分析儀預約</title>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/css/all.css" >
     <script src='/js/all.js'></script>
     <style  type="text/css">
@@ -33,7 +34,7 @@
             </div>
         </div>
         
-        @if (App\Admin::isadmin()->count())
+        @if (App\Userinfo::isadmin()->count())
             @include('partials.admin_nav')
         @else
             @include('partials.user_nav')
