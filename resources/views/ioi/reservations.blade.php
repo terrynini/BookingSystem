@@ -23,10 +23,8 @@
                             <td>{{$record['event_id']}}</td>
                             <td>reserve</td>
                             <td>{{$record['created_at']}}</td>
-                            <td>{{ Form::open(['url' => 'ioi/reservations/'.$record['event_id'], 'onsubmit' => 'return ConfirmDelete('.$record['event_id'].')']) }}
-                                    {{ Form::hidden('_method', 'DELETE') }}
-                                    {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-                                {{ Form::close() }}
+                            <td>
+                                <button class="btn btn-danger deleteReservation" data-id="{{$record['event_id']}}" data-token="{{ csrf_token() }}" >Delete</button>
                             </td>
                         </tr>
                     @endforeach
@@ -39,12 +37,41 @@
 @stop
 
 @section('script')
-function ConfirmDelete(id)
-{
-    var x = confirm("是否要刪除場次 "+id+" 的預約");
-    if (x)
-      return true;
-    else
-      return false;
-}
+$(".deleteReservation").click(function(){
+    var id = $(this).data("id");
+    var $ele = $(this).parent().parent();
+    var token = $(this).data("token");
+
+    toastr.warning("確認刪除第"+id+"場次的預約？<br /><br /><button type='button' id='confirmationYes' class='btn btn-light'>是</button>",
+    '刪除預約',
+    {
+        closeButton: true,
+        allowHtml: true,
+        positionClass: "toast-bottom-center",
+        preventDuplicates: true,
+        onShown: function (toast) {
+            $("#confirmationYes").click(deleteConfirm);
+        }
+    });
+
+    function deleteConfirm()
+    {
+        $.ajax(
+        {
+            url: "reservations/"+id,
+            type: 'POST',
+            dataType: "JSON",
+            data: {
+                "_method": 'DELETE',
+                "_token": token,
+            },
+            success: function( msg ) {
+                if ( msg.status === 'success' ) {
+                    $ele.fadeOut().remove();
+                }
+            }
+        });
+    }
+});
+
 @stop

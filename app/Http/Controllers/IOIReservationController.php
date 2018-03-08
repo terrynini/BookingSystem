@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreReservationRequest;
 use App\IOIReservation;
 use App\Userinfo;
+use Carbon\Carbon;
 class IOIReservationController extends Controller
 {
 
@@ -20,8 +21,10 @@ class IOIReservationController extends Controller
      */
     public function index()
     {
-        if(Userinfo::isAdmin()-get())
-        $records = Userinfo::where('identity_code',session('id'))->first()->reservation->toArray();
+        if(Userinfo::isAdmin()->get() !== NULL)
+            $records = IOIReservation::all()->toArray();
+        else
+            $records = Userinfo::where('identity_code',session('id'))->first()->reservation->toArray();
         return view('ioi.reservations', compact("records"));
     }
 
@@ -95,8 +98,11 @@ class IOIReservationController extends Controller
     {
         //要驗證是否為本人的場次
         //不可刪除從前的場次
-        //刪除警告 改用https://getbootstrap.com/docs/4.0/components/modal/
-        IOIReservation::where('event_id', $id)->first()->delete();
-        return back();
+        $reservation = Userinfo::user()->reservation()->where('event_id', $id)->firstOrFail();
+        if($reservation->event->begin_at->gt(Carbon::now())){
+            $reservation->delete();
+            return response()->json(['status' => 'success']);
+        }
+        return response()->json(['status' => 'bad']);
     }
 }

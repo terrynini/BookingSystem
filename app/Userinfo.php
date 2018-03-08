@@ -12,8 +12,9 @@ class Userinfo extends Model
     }
 
     public function scopeUser($query){
-        return $query->where('identity_code', session('id'));
+        return $query->where('identity_code', session('id'))->firstOrFail();
     }
+    
     public function reservation()
     {
         return $this->hasMany('App\IOIReservation','userinfo_id');

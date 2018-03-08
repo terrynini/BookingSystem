@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 class IOIEvent extends Model
 {
+    use SoftDeletes;
     protected $table = "ioi_events";
     protected $fillable = ['begin_at','timer','deleted_at'];
     protected $dates = ['begin_at','timer','deleted_at'];

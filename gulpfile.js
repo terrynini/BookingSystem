@@ -31,7 +31,13 @@ gulp.task("copyfiles", function() {
         .pipe(gulp.dest("resources/assets/js/"));
     
     gulp.src("vendor/bower_components/bootstrap/dist/css/bootstrap.min.css")
-        .pipe(gulp.dest("resources/assets/css/")); 
+        .pipe(gulp.dest("resources/assets/css/"));
+        
+    gulp.src('vendor/bower_components/toastr/toastr.min.js')
+        .pipe(gulp.dest('resources/assets/js'));
+   
+    gulp.src('vendor/bower_components/toastr/toastr.min.css')
+        .pipe(gulp.dest('resources/assets/css'));
 });
 
 elixir((mix) => {
@@ -40,12 +46,14 @@ elixir((mix) => {
     mix.styles([
         'bootstrap.min.css',
         'app.css',
-        'fullcalendar.css'
+        'fullcalendar.css',
+        'toastr.min.css'
     ]);
 
     mix.scripts([
         'jquery.min.js',
         'moment.min.js',
-        'fullcalendar.js'
+        'fullcalendar.js',
+        'toastr.min.js'
     ]);
 });
