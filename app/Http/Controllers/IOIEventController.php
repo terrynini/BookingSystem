@@ -23,7 +23,10 @@ class IOIEventController extends Controller
             //show period for fullcalendar
             $events = IOIEvent::whereBetween('begin_at',[ $request->start, $request->end])->get();
             foreach ($events as $event){
-                $color = IOIEvent::find($event->id)->reservation == NULL ? 'green' : 'red';
+                $e = IOIEvent::findOrFail($event->id);
+                $color = $e->reservation == NULL ? 'green' : 'red';
+                if($e->timer->gt(Carbon::now()))
+                    $color = "orange";
                 $eventobject = ['title' => $event->id,
                                 'start'=> $event->begin_at->toDateTimeString(),
                                 'end' => $event->begin_at->addMinutes(10)->toDateTimeString(),

@@ -24,12 +24,17 @@ class IOIReservationController extends Controller
     {
         if(Userinfo::MatchAdmin()->count())
         {
-            $records = IOIReservation::latest()->get()->toArray();
+            $records = IOIReservation::latest()->get();
+            foreach ($records as &$ele)
+                $ele["userinfo"] = $ele->userinfo;
         }
         else
-        {
-            $records = Userinfo::user()->reservation->toArray();
-        }   
+            $records = Userinfo::user()->reservation;
+        
+        $records = $records->toArray();
+        foreach ($records as &$ele) 
+            $ele["begin_at"] = IOIEvent::findOrFail($ele["event_id"])->begin_at;
+
         return view('ioi.reservations', compact("records"));
     }
 
@@ -84,7 +89,10 @@ class IOIReservationController extends Controller
         {
             $status = "不能預約當天的場次";
         }
-
+        //預約時間已開始
+        if($event->timer->gt(Carbon::now())){
+            $status = "預約尚未開放";
+        }
         //要檢查例外，還沒建立使用者的時候
         if($status === "success")
         {

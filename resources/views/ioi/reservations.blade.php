@@ -11,17 +11,25 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">event_id</th>
-                        <th scope="col">status</th>
-                        <th scope="col">created_at</th>
-                        <th scope="col">button</th>
+                        <th scope="col">場次</th>
+                        <th scope="col">開始時間</th>
+                        <th scope="col">狀態</th>
+                        @if (App\Userinfo::MatchAdmin()->count())
+                            <th scope="col">預約人</th>
+                        @endif
+                        <th scope="col">預約創建於</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($records as $record)
                         <tr>
-                            <td>{{$record['event_id']}}</td>
+                            <th scope="row">{{$record['event_id']}}</th>
+                            <td>{{$record['begin_at']}}</td>
                             <td>reserve</td>
+                            @if (App\Userinfo::MatchAdmin()->count())
+                                <th>{{  $record['userinfo']['name']."/".$record['userinfo']['identity_code'] }}</th>
+                            @endif
                             <td>{{$record['created_at']}}</td>
                             <td>
                             <button class="btn btn-danger deleteReservation" data-id="{{$record['id']}}" data-event = "{{$record['event_id']}}" data-token="{{ csrf_token() }}" {{App\IOIEvent::find($record['event_id'])->begin_at->gt(Carbon\Carbon::now()) ? '' : 'disabled'}}>Delete</button>
