@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Userinfo extends Model
 {
     //
-    public function scopeIsAdmin($query){
+    public function scopeMatchAdmin($query){
         return $query->where('identity_code', session('id'))->where('privilege','>','0');
     }
 

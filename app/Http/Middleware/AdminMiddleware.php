@@ -15,7 +15,7 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Userinfo::isadmin()->first() == NULL) {
+        if (Userinfo::MatchAdmin()->count() == 0) {
             if(strpos($request->url(),'ioi') !== false)
                 return redirect('ioi');
             else

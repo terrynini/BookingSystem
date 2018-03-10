@@ -43,5 +43,48 @@
 @section('script')
 $("#login").click(function() { window.location.href = "{{url("/auth")}}";});
 $("#logout").click(function() { window.location.href = "{{url("/logout")}}";});
+
+var fmr = $("#reservationForm");
+fmr.submit(function (e) {
+
+    e.preventDefault();
+
+    $.ajax({
+        type: fmr.attr('method'),
+        url: fmr.attr('action'),
+        data: fmr.serialize(),
+        success: function (data) {
+            if(data.status == "success")
+            {
+                toastr.success("","預約成功",
+                {
+                    closeButton: true,
+                    positionClass: "toast-bottom-center",
+                    preventDuplicates: true,
+                });
+                $('#calendar').fullCalendar('refetchEvents');
+            }
+            else
+                toastr.warning(data.status,"預約失敗",
+                {
+                    closeButton: true,
+                    positionClass: "toast-bottom-center",
+                    preventDuplicates: true,
+                });
+
+        },
+        error: function(data){
+            console.log("fail");
+            document.write(data.responseText);
+        }
+    });
+});
+
+$.getJSON("/ioi/events/",function(data) {
+            $('#event_id').find('option').remove();
+            $.each(data, function(){
+                $("#event_id").append('<option value="'+ this.value +'">'+ this.name +'</option>')
+            });
+});
 @stop
 

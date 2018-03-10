@@ -12,7 +12,10 @@ class IOIEvent extends Model
     protected $table = "ioi_events";
     protected $fillable = ['begin_at','timer','deleted_at'];
     protected $dates = ['begin_at','timer','deleted_at'];
-    
+   
+    public function scopeAvailable($query){
+        return $query->where('begin_at','>',Carbon::tomorrow());
+    }
     public function reservation()
     {
         return $this->hasOne('App\IOIReservation','event_id');

@@ -9,11 +9,11 @@
     <style  type="text/css">
     @font-face {
         font-family:'NotoSans';
-        src: url('fonts/NotoSansCJKtc-Black.otf');
+        src: url('/fonts/NotoSansCJKtc-Black.otf');
     }
     @font-face{
         font-family:"YaHei";
-        src: url('fonts/Microsoft YaHei.ttf');
+        src: url('/fonts/Microsoft YaHei.ttf');
     }
     @media (max-width: @screen-xs) {
         body{font-size: 10px;}
@@ -34,7 +34,7 @@
             </div>
         </div>
         
-        @if (App\Userinfo::isadmin()->count())
+        @if (App\Userinfo::MatchAdmin()->count())
             @include('partials.admin_nav')
         @else
             @include('partials.user_nav')

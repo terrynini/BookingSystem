@@ -17,17 +17,30 @@ class IOIEventController extends Controller
      */
     public function index(Request $request)
     {
-        $events = IOIEvent::whereBetween('begin_at',[ $request->start, $request->end])->get();
-        $json = array();
-        foreach ($events as $event){
-            $color = IOIEvent::find($event->id)->reservation == NULL ? 'green' : 'red';
-            $eventobject = ['title' => $event->id,
-                            'start'=> $event->begin_at->toDateTimeString(),
-                            'end' => $event->begin_at->addMinutes(10)->toDateTimeString(),
-                            'color' => $color,
-                            'textColor' => 'white'
-                            ];
-            $json[] = $eventobject;
+        $json = [];
+        if( isset($request->start) && isset($request->end) )
+        {
+            //show period for fullcalendar
+            $events = IOIEvent::whereBetween('begin_at',[ $request->start, $request->end])->get();
+            foreach ($events as $event){
+                $color = IOIEvent::find($event->id)->reservation == NULL ? 'green' : 'red';
+                $eventobject = ['title' => $event->id,
+                                'start'=> $event->begin_at->toDateTimeString(),
+                                'end' => $event->begin_at->addMinutes(10)->toDateTimeString(),
+                                'color' => $color,
+                                'textColor' => 'white'
+                                ];
+                $json[] = $eventobject;
+            }
+        }
+        else
+        {
+            //show all available event
+            $list = IOIEvent::available()->get();
+            foreach($list as $ele){
+                if($ele->reservation == NULL )
+                    $json[] = ['name' => $ele->id, 'value' => $ele->id];
+            }
         }
         return response()->json($json);
     }

@@ -24,7 +24,7 @@
                             <td>reserve</td>
                             <td>{{$record['created_at']}}</td>
                             <td>
-                                <button class="btn btn-danger deleteReservation" data-id="{{$record['event_id']}}" data-token="{{ csrf_token() }}" >Delete</button>
+                            <button class="btn btn-danger deleteReservation" data-id="{{$record['id']}}" data-event = "{{$record['event_id']}}" data-token="{{ csrf_token() }}" {{App\IOIEvent::find($record['event_id'])->begin_at->gt(Carbon\Carbon::now()) ? '' : 'disabled'}}>Delete</button>
                             </td>
                         </tr>
                     @endforeach
@@ -39,10 +39,11 @@
 @section('script')
 $(".deleteReservation").click(function(){
     var id = $(this).data("id");
+    var event_id = $(this).data("event");
     var $ele = $(this).parent().parent();
     var token = $(this).data("token");
 
-    toastr.warning("確認刪除第"+id+"場次的預約？<br /><br /><button type='button' id='confirmationYes' class='btn btn-light'>是</button>",
+    toastr.warning("確認刪除第"+event_id+"場次的預約？<br /><br /><button type='button' id='confirmationYes' class='btn btn-light'>是</button>",
     '刪除預約',
     {
         closeButton: true,
