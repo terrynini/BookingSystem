@@ -16,15 +16,16 @@ class CreateUserinfosTable extends Migration
         Schema::create('userinfos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('type');
+            $table->string('type')->nullable();
             $table->text('email')->nullable();
             $table->string('identity_code');
-            $table->string('department');
+            $table->string('department')->nullable();
             $table->string('group')->nullable();
             $table->string('title')->nullable();
             $table->char('phone',10)->nullable();
             $table->integer('privilege')->unsigned();
             $table->timestamps();
+            $table->unique(array('name', 'identity_code'));
         });
     }
 

@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Userinfo;
 
 class UserController extends Controller
 {
+    public function __construct(){
+        $this->middleware("admin");
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +18,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = Userinfo::where('privilege' , '>', 0)->get();
+        return view("user",compact("users"));
     }
 
     /**
@@ -34,7 +40,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->identity_code == NULL || $request->name == NULL)
+        {
+            $status = "欄位不可為空白";
+            return response()->json(compact("status"));
+        }
+
+        $status = "success";
+        $user = Userinfo::where('identity_code',$request->identity_code)->where('name',$request->name)->first();
+        if($user === NULL)
+        {
+            Userinfo::create($request->all());
+        }
+        else if($user->privilege == $request->privilege)
+            $status = "管理員已存在";
+        else
+        {
+            $user->privilege = $request->privilege;
+            $user->save();
+        }
+        return response()->json(compact("status"));
     }
 
     /**
@@ -79,6 +104,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $user = Userinfo::findOrFail($id);
+        $user->privilege = 0;
+        $user->save();
+        
+        return response()->json(['status' => 'success']);
     }
 }

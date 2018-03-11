@@ -8,7 +8,7 @@
                         {!! Form::label('event_id','預約場次')!!}
                         {!! Form::select('event_id' , [] ,'' , ['class' => 'form-control']) !!}
                     </div>
-                    <div class ="form-group">
+                    <div class ="form-group text-center">
                         <button class="btn btn-primary " type="submit"><i class="fa fa-check"></i>Submit</button>
                     </div>
                 {!! Form::close() !!}

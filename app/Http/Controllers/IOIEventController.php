@@ -66,9 +66,7 @@ class IOIEventController extends Controller
      */
     public function store(Request $request)
     {
-
         $begin_at = Carbon::createFromFormat("Y-m-d\TH:i", $request->begin_at);
-
         for($rw = 0;$rw<$request->repeat_week;$rw++)
             for($rd = 0;$rd<$request->repeat_day;$rd++)
                 for($re = 0;$re<$request->repeat;$re++)

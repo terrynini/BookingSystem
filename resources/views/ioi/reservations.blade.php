@@ -26,13 +26,20 @@
                         <tr>
                             <th scope="row">{{$record['event_id']}}</th>
                             <td>{{$record['begin_at']}}</td>
-                            <td>reserve</td>
+                            <td>{{$record['status']}}
+                                @if (App\Userinfo::MatchAdmin()->count() && $record['status']=="未簽到") 
+                                    <button class='btn btn-primary checkReservation' data-id="{{$record['id']}}" data-token="{{csrf_token()}}" ><i class='fa fa-check' aria-hidden='true'></i></button>
+                                @endif
+                            </td>
                             @if (App\Userinfo::MatchAdmin()->count())
                                 <th>{{  $record['userinfo']['name']."/".$record['userinfo']['identity_code'] }}</th>
                             @endif
                             <td>{{$record['created_at']}}</td>
                             <td>
-                            <button class="btn btn-danger deleteReservation" data-id="{{$record['id']}}" data-event = "{{$record['event_id']}}" data-token="{{ csrf_token() }}" {{App\IOIEvent::find($record['event_id'])->begin_at->gt(Carbon\Carbon::now()) ? '' : 'disabled'}}>Delete</button>
+                            <button class="btn btn-danger deleteReservation" data-id="{{$record['id']}}" 
+                            data-event = "{{$record['event_id']}}" data-token="{{ csrf_token() }}"
+                             {{(App\IOIEvent::find($record['event_id'])->begin_at->gt(Carbon\Carbon::now())
+                             && $record['userinfo_id'] == App\Userinfo::user()->id || App\Userinfo::MatchSuAdmin()->count()) ? '' : 'disabled'}}><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
                             </td>
                         </tr>
                     @endforeach
@@ -45,6 +52,25 @@
 @stop
 
 @section('script')
+$(".checkReservation").click(function(){
+    var id = $(this).data("id");
+    var token = $(this).data("token");
+
+        $.ajax(
+        {
+            url: "reservations/"+id,
+            type: 'PATCH',
+            dataType: "JSON",
+            data: {
+                "_method": 'PUT',
+                "_token": token,
+            },
+            success: function( msg ) {
+                window.location.href = "{{url("ioi/reservations")}}";
+            }
+        });
+});
+
 $(".deleteReservation").click(function(){
     var id = $(this).data("id");
     var event_id = $(this).data("event");
@@ -76,8 +102,16 @@ $(".deleteReservation").click(function(){
             },
             success: function( msg ) {
                 if ( msg.status === 'success' ) {
+                    toastr.info("","刪除成功",{positionClass: "toast-bottom-center"});
                     $ele.fadeOut().remove();
                 }
+                else
+                    toastr.error("", msg.status,{positionClass: "toast-bottom-center"}); 
+            },
+            error: function(msg){
+                    document.write(msg.responseText)
+                    toastr.error("","無效的操作",{positionClass: "toast-bottom-center"});
+
             }
         });
     }

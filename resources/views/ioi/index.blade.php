@@ -10,29 +10,35 @@
         <div class ="col-7">
             <div id='calendar'>
             </div>
+            <div class="card ">
+                <div class="card-body">
+                    <ul>
+                        <li><span style="color:green">綠色：可預約</span>、
+                            <span style="color:red">紅色：已被預約</span>、
+                            <span style="color:orange">橘色：尚未開放預約</span>
+                        </li>
+                        <li>預約完成後至預約紀錄查看</li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <div class = "col-5 container">
             <div class="card-columns ">
+               <div class="card">
+                   <div class="card-header text-center">預約及使用說明</div> 
+                   <div class="card-body">
+                       <ol>
+                           <li>請自行攜帶隨身碟或拍照存取檢測資料</li>
+                           <li>每個場次只開放一人預約</li>
+                           <li>每人每月只能預約一次(可取消後改場次)</li>
+                           <li>不能預約當天的場次</li>
+                           <li>往前半年內有三次未到紀錄，將暫時無法報名</li>
+                           <li>請提早在活動兩天前取消，活動前一天將無法取消</li>
+                       </ol>
+                   </div>
+               </div>
                @include('partials.userinfo')
                @include('partials.form') 
-            </div>
-            <div class="alert alert-warning">
-                <strong>預約及使用說明：</strong>
-                <ul>
-                    <li>請自行攜帶隨身碟或拍照存取檢測資料</li>
-                    <li>每個場次只能一人預約</li>
-                    <li>每人每月只能預約一次(可取消後改場次)</li>
-                    <li>不能預約當天或當天之前的場次</li>
-                    <li>三個月內有三次未到場紀錄的，將半年內無法報名</li>
-                </ul>
-            </div>
-            <div class="alert alert-info">
-                <strong>系統說明：</strong>
-                <ul>
-                    <li>上方顏色方塊表示有場次的日期</li>
-                    <li>每個顏色方塊內表達的為: 開始時間、場次編號、預約狀況</li>
-                    <li>預約完成會有信件通知，當中附有取消用連結</li>
-                </ul>
             </div>
         </div>
     </div>
@@ -72,10 +78,6 @@ fmr.submit(function (e) {
                     preventDuplicates: true,
                 });
 
-        },
-        error: function(data){
-            console.log("fail");
-            document.write(data.responseText);
         }
     });
 });

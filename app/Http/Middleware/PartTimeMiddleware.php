@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use \App\Userinfo;
-class AdminMiddleware
+
+class PartTimeMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Userinfo::MatchSuAdmin()->count() == 0) {
+        if (Userinfo::MatchAdmin()->count() == 0) {
             if(strpos($request->url(),'ioi') !== false)
                 return redirect('ioi');
             else if(strpos($request->url(),'cpr') !== false)
@@ -23,7 +23,6 @@ class AdminMiddleware
             else    
                 return redirect('');
         }
-
         return $next($request);
     }
 }

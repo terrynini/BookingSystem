@@ -24,7 +24,7 @@ class IOIReservationController extends Controller
     {
         if(Userinfo::MatchAdmin()->count())
         {
-            $records = IOIReservation::latest()->get();
+            $records = IOIReservation::orderBy('event_id','desc')->get();
             foreach ($records as &$ele)
                 $ele["userinfo"] = $ele->userinfo;
         }
@@ -32,8 +32,11 @@ class IOIReservationController extends Controller
             $records = Userinfo::user()->reservation;
         
         $records = $records->toArray();
-        foreach ($records as &$ele) 
+        foreach ($records as &$ele)
+        { 
             $ele["begin_at"] = IOIEvent::findOrFail($ele["event_id"])->begin_at;
+            $ele["status"] = ($ele["checked_in_at"]===NULL ? "未簽到":"已簽到");
+        }
 
         return view('ioi.reservations', compact("records"));
     }
@@ -98,7 +101,7 @@ class IOIReservationController extends Controller
         {
             IOIReservation::Create([
                 'event_id' => $request->event_id,
-                'userinfo_id' => Userinfo::user()->first()->id,
+                'userinfo_id' => Userinfo::user()->id,
             ]);
         }
 
@@ -136,7 +139,15 @@ class IOIReservationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $status = "bad";
+        if(Userinfo::MatchAdmin()->count())
+        {
+            $event = IOIReservation::where('checked_in_at',NULL)->findOrFail($id);
+            $event->checked_in_at = Carbon::now();
+            $event->save();
+            $status = "success";
+        }
+        return response()->json(compact("status"));
     }
 
     /**
@@ -147,15 +158,20 @@ class IOIReservationController extends Controller
      */
     public function destroy($id)
     {
-        if(Userinfo::MatchAdmin()->count())
+        if(Userinfo::MatchSuAdmin()->count())
+        {
             $reservation = IOIReservation::findOrFail($id);
-        else
-            $reservation = Userinfo::user()->reservation()->findOrFail($id);
-
-        if($reservation->event->begin_at->gt(Carbon::now())){
             $reservation->delete();
             return response()->json(['status' => 'success']);
         }
-        return response()->json(['status' => 'bad']);
+        else
+        {
+            $reservation = Userinfo::user()->reservation()->findOrFail($id);
+            if($reservation->event->begin_at->gt(Carbon::tomorrow()->addDay())){
+                $reservation->delete();
+                return response()->json(['status' => 'success']);
+            }
+        }
+        return response()->json(['status' => '無法刪除即將開始的預約']);
     }
 }

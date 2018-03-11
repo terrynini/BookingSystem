@@ -25,7 +25,7 @@ class UserTableSeeder extends Seeder {
             'type' => 'student',
             'identity_code' => '104502040',
             'department' => "bang",
-            'privilege' => 1,
+            'privilege' => 2,
         ]);
         DB::table('userinfos')->insert([
             'name' => 'Guest',

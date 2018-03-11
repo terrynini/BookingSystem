@@ -44,6 +44,7 @@
         <script type="text/javascript">
         $(document).ready(function() {
             $('#calendar').fullCalendar({
+                weekends: false,
                 defaultView: 'month',
                 events :  '/ioi/events',
                 timeFormat: 'H:mm',

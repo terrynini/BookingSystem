@@ -1,7 +1,7 @@
 <div class="container" style="padding:0 0 1.5rem">
     <ul class="nav nav-pills">
         <li class="nav-item">
-            <a class="nav-link {{ Request::is('ioi') ? 'active' : '' }}" href="{{url("/ioi")}}">活動行事曆</a>
+            <a class="nav-link {{ Request::is('ioi') ? 'active' : '' }}" href="{{url("/ioi")}}">預約</a>
         </li>
         @if(session('access_token') != NULL)
             <li class="nav-item">
