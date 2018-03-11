@@ -14,7 +14,7 @@
                         <th scope="col">場次</th>
                         <th scope="col">開始時間</th>
                         <th scope="col">狀態</th>
-                        @if (App\Userinfo::MatchAdmin()->count())
+                        @if ($admin)
                             <th scope="col">預約人</th>
                         @endif
                         <th scope="col">預約創建於</th>
@@ -27,24 +27,26 @@
                             <th scope="row">{{$record['event_id']}}</th>
                             <td>{{$record['begin_at']}}</td>
                             <td>{{$record['status']}}
-                                @if (App\Userinfo::MatchAdmin()->count() && $record['status']=="未簽到") 
+                                @if ($admin && $record['status']=="未簽到") 
                                     <button class='btn btn-primary checkReservation' data-id="{{$record['id']}}" data-token="{{csrf_token()}}" ><i class='fa fa-check' aria-hidden='true'></i></button>
                                 @endif
                             </td>
-                            @if (App\Userinfo::MatchAdmin()->count())
+                            @if ($admin)
                                 <th>{{  $record['userinfo']['name']."/".$record['userinfo']['identity_code'] }}</th>
                             @endif
                             <td>{{$record['created_at']}}</td>
                             <td>
                             <button class="btn btn-danger deleteReservation" data-id="{{$record['id']}}" 
                             data-event = "{{$record['event_id']}}" data-token="{{ csrf_token() }}"
-                             {{(App\IOIEvent::find($record['event_id'])->begin_at->gt(Carbon\Carbon::now())
-                             && $record['userinfo_id'] == App\Userinfo::user()->id || App\Userinfo::MatchSuAdmin()->count()) ? '' : 'disabled'}}><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
+                             {{ $record['disabled']? 'disabled' : ''}}><i class="fa fa-trash" aria-hidden="true"></i>Delete</button>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            <div class="text-center">
+                {{$records->links()}}
+            </div>
         </div>
     </div>
 </div>

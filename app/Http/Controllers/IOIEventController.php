@@ -122,8 +122,14 @@ class IOIEventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $begin = $request->begin_at;
+        $end = $request->end_at;
+        if($begin == NULL)
+            return redirect('/ioi/events/create');
+        $end = ($end==NULL)?$begin:$end;
+        IOIEvent::whereBetween('id',[$begin,$end])->delete();
+        return redirect('/ioi/events/create'); 
     }
 }

@@ -13,7 +13,6 @@
         </div>
         <div class = "col-5 container">
             <div class="card-columns ">
-                @include('partials.userinfo')
                 <div class="card chi">
                     <div class="card-header text-center">新增場次</div>
                     <div class="card-body">
@@ -52,6 +51,22 @@
                         {!! Form::close() !!}
                     </div>
                 </div>
+                <div class="card chi">
+                    <div class="card-header text-center">刪除場次</div>
+                    <div class="card-body">
+                        {!! Form::open(['url' => '/ioi/events/0', 'method'=>'delete']) !!}
+                            <div class="form-group">
+                                {!! Form::label('begin_at','從:') !!}
+                                {!! Form::input('text', 'begin_at', '', ['class' => 'form-control']) !!}
+                            </div>
+                            <div class="form-group">
+                                {!! Form::label('end_at','到:') !!}
+                                {!! Form::input('text', 'end_at', '', ['class' => 'form-control']) !!}
+                            </div>
+                            <button class="btn btn-danger" type="submit"><i class="fa fa-trash"></i>刪除</button>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -60,7 +75,6 @@
 @stop
 
 @section('script')
-$("#login").click(function() { window.location.href = "{{url("/auth")}}";});
-$("#logout").click(function() { window.location.href = "{{url("/logout")}}";});
+
 @stop
 

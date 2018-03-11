@@ -22,23 +22,26 @@ class IOIReservationController extends Controller
      */
     public function index()
     {
+        $admin = Userinfo::MatchAdmin()->count()>0?true:false;
+        $suadmin = Userinfo::MatchSuAdmin()->count()>0?true:false;
+        $now =  Carbon::now();
+        $userid = Userinfo::user()->id;
         if(Userinfo::MatchAdmin()->count())
         {
-            $records = IOIReservation::orderBy('event_id','desc')->get();
+            $records = IOIReservation::orderBy('event_id','desc')->paginate(100);
             foreach ($records as &$ele)
                 $ele["userinfo"] = $ele->userinfo;
         }
         else
-            $records = Userinfo::user()->reservation;
-        
-        $records = $records->toArray();
+            $records = Userinfo::user()->reservation()->orderBy('event_id','desc')->paginate(100);
+
         foreach ($records as &$ele)
         { 
             $ele["begin_at"] = IOIEvent::findOrFail($ele["event_id"])->begin_at;
+            $ele["disabled"] = ($suadmin||($ele["begin_at"]->gt($now)&& $ele['userinfo_id'] == $userid )?false:true);
             $ele["status"] = ($ele["checked_in_at"]===NULL ? "未簽到":"已簽到");
         }
-
-        return view('ioi.reservations', compact("records"));
+        return view('ioi.reservations', compact("records","admin","suadmin"));
     }
 
     /**
