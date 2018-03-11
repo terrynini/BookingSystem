@@ -3,12 +3,8 @@
     <head>
         <title>中大衛保組預約系統</title>
 	<meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    
-    <link rel='stylesheet' href='bower_components/fullcalendar/dist/fullcalendar.css' />
-    <script src='bower_components/jquery/dist/jquery.min.js'></script>
-    <script src='bower_components/moment/min/moment.min.js'></script>
-    <script src='bower_components/fullcalendar/dist/fullcalendar.js'></script>
+    <link rel="stylesheet" href="/css/all.css" >
+    <script src='/js/all.js'></script>
 
     <style type="text/css">
     @font-face {
