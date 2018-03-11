@@ -3,8 +3,7 @@
     <head>
         <title>中大衛保組預約系統</title>
 	<meta charset="utf-8">
-    <link rel="stylesheet" href="/css/all.css" >
-    <script src='/js/all.js'></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
     <style type="text/css">
     @font-face {
