@@ -13,7 +13,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">姓名</th>
-                        <th scope="col">學號/身分證(非完整)</th>
+                        <th scope="col">學號/身分證(前六碼)</th>
                         <th scope="col">權限</th>
                         <th scope="col"></th>
                     </tr>
