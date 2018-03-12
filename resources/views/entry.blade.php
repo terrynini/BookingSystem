@@ -61,7 +61,7 @@
                     </div>
                     <p  class="text-center" style="font-size:6em;color:white;" >衛生保健組預約系統</p>
             </div>
-	        <div class="container-fluid" style="background:#f8a5c2;padding:80px 0 20px">
+	        <div class="container-fluid" style="background:#f8a5c2;padding:80px 0 20px;height:50%">
                 <div class="container">
                     <div class="card-columns">
                         <div class="card"  style="background:#f78fb3;color:#596275;border-color:#f78fb3;">
